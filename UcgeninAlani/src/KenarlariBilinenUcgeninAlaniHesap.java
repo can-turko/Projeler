@@ -15,5 +15,6 @@ public class KenarlariBilinenUcgeninAlaniHesap {
         e=d*(d-a)*(d-b)*(d-c);
         System.out.println("üçgenin alanı:"+e);
 
+
     }
 }
