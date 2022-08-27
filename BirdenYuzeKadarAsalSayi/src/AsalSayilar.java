@@ -10,7 +10,7 @@ public class AsalSayilar {
             }
             if(a!=0) {
                 System.out.println(i);
-            };
+            }
         }
     }
 }
