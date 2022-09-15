@@ -18,13 +18,11 @@ public class Main {
         for (int[] k : q) {
             System.out.println(Arrays.toString(k));
         }
-        for (int l = 0; l < w.length; l++){
-            e++;
-            for(int m = 0 ; m < w[l].length ; m++){
-                w[l][m] = q[d][e];
-                d++;
+        for (int i = 0; i < w.length; i++) {
+            for (int j = 0; j <= w.length+1; j++) {
+                w[i][j] = q[j][i];
+
             }
-            d=0;
         }
         System.out.println(" ");
         for (int[] k : w) {
