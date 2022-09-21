@@ -68,6 +68,7 @@ public class MineSweeper {
 
     public void run() {
         int a = 0;
+        System.out.println("Mayın Tarlası Oyununa Hoş Geldiniz!");
         while ((rowNumber * colNumber) - (((rowNumber) * (colNumber) - 2) / 4) > a) {
             for (int k = 0; k < field.length; k++) {
                 System.out.println(Arrays.toString(this.str[k]));
@@ -100,8 +101,12 @@ public class MineSweeper {
     }
 
     public void showMap() {
+        fillField();
+        System.out.println("---------------------------------------");
         for (int k = 0; k < field.length; k++) {
             System.out.println(Arrays.toString(this.map[k]));
+
         }
+        System.out.println("---------------------------------------");
     }
 }
