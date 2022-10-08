@@ -10,11 +10,13 @@ public class Character {
     private boolean charStatus = true;
     Inventory inventory = new Inventory();
     Scanner input = new Scanner(System.in);
+    private boolean winGame = false;
+
 
     public Character() {
         System.out.println("""
                 Wellcome to Adventure Game
-                You need 3 items to finish game.(Water,Food,Firewood)
+                You need 3 items to finish game.(Water,Food,Firewood) and Enter the Safe Home
                 Enjoy the game.
                                 
                 Please select a character by id number
@@ -84,6 +86,14 @@ public class Character {
 
     public int getMoney() {
         return money;
+    }
+
+    public boolean isWinGame() {
+        return winGame;
+    }
+
+    public void setWinGame(boolean winGame) {
+        this.winGame = winGame;
     }
 
     public void setMoney(int money) {

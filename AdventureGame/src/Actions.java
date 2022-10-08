@@ -6,7 +6,7 @@ public class Actions {
     public static void run() {
         Character player = new Character();
         int y = 1;
-        while ((!player.inventory.getFireWood() || !player.inventory.getFood() || !player.inventory.getWater()) && player.isCharStatus()) {
+        while (player.isCharStatus() && !player.isWinGame()) {
             System.out.println("""
                     Please enter a number which next to location you want to go
                     1.Safe Home
@@ -20,27 +20,46 @@ public class Actions {
             switch (a) {
                 case 1:
                     SafeHome.enterHome(player);
+                    if (player.inventory.getFireWood() & player.inventory.getFood() & player.inventory.getWater()) {
+                        System.out.println("Congratulations you have all item (Food, Firewood, Water) to end the game!!");
+                        System.out.println("Do you want to play again? yes for enter (y) and no for enter (n)");
+                        char n = input.next().charAt(0);
+                        if (n == 'y') {
+                            player = new Character();
+                        } else if (n == 'n') {
+                            player.setWinGame(true);
+                        }
+                    }
                     break;
                 case 2:
                     Grocer.enterGrocer(player);
                     break;
                 case 3:
-                    BattlePlaces cave = new BattlePlaces();
-                    player.inventory.setControl(false);
-                    cave.places(player, "Zombie", 3, 10, 4, "Food");
-                    if (player.inventory.isControl()) player.inventory.setFood(true);
+                    if(!player.inventory.getFood()) {
+                        BattlePlaces cave = new BattlePlaces();
+                        player.inventory.setControl(false);
+                        cave.places(player, "Zombie", 3, 10, 4, "Food");
+                        if (player.inventory.isControl()) player.inventory.setFood(true);
+                    }
+                    else System.out.println("This place already cleared");
                     break;
                 case 4:
-                    BattlePlaces forest = new BattlePlaces();
-                    player.inventory.setControl(false);
-                    forest.places(player, "Vampire", 4, 14, 7, "Firewood");
-                    if (player.inventory.isControl()) player.inventory.setFireWood(true);
+                    if(!player.inventory.getFireWood()) {
+                        BattlePlaces forest = new BattlePlaces();
+                        player.inventory.setControl(false);
+                        forest.places(player, "Vampire", 4, 14, 7, "Firewood");
+                        if (player.inventory.isControl()) player.inventory.setFireWood(true);
+                    }
+                    else System.out.println("This place already cleared");
                     break;
                 case 5:
-                    BattlePlaces river = new BattlePlaces();
-                    player.inventory.setControl(false);
-                    river.places(player, "Bear", 7, 20, 12, "Water");
-                    if (player.inventory.isControl()) player.inventory.setWater(true);
+                    if(!player.inventory.getWater()) {
+                        BattlePlaces river = new BattlePlaces();
+                        player.inventory.setControl(false);
+                        river.places(player, "Bear", 7, 20, 12, "Water");
+                        if (player.inventory.isControl()) player.inventory.setWater(true);
+                    }
+                    else System.out.println("This place already cleared");
                     break;
                 case 6:
                     player.allInfo();
@@ -49,13 +68,6 @@ public class Actions {
                     player.inventory.showInventory();
             }
             if (!player.isCharStatus()) {
-                System.out.println("Do you want to play again? yes for enter (y) and no for enter (n)");
-                char n = input.next().charAt(0);
-                if (n == 'y') {
-                    player = new Character();
-                }
-            } else if (player.inventory.getFireWood() & player.inventory.getFood() & player.inventory.getWater()) {
-                System.out.println("Congratulations you have all item (Food, Firewood, Water) to end the game!!");
                 System.out.println("Do you want to play again? yes for enter (y) and no for enter (n)");
                 char n = input.next().charAt(0);
                 if (n == 'y') {
