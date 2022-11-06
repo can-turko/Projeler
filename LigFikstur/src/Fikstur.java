@@ -1,70 +1,82 @@
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 public class Fikstur {
-    Scanner input = new Scanner(System.in);
-    private String name;
-    private int totalPoint;
-    private String[] teamList;
-    private boolean doubleNumber;
-    private int countTeam;
-    private ArrayList<LinkedHashMap<String, String>> line = new ArrayList<>();
-    private String[] evSahibi;
-    private String[] deplasman;
+    static Scanner input = new Scanner(System.in);
+    static LinkedList<String> teams = new LinkedList<>();
+    static LinkedList<LinkedHashMap<String, String>> allRound = new LinkedList<>();
 
-    public void teamMaker() {
-        System.out.print("Lütfen yapmak istediğiniz takım sayısını giriniz: ");
-        this.countTeam = input.nextInt();
-        if (countTeam % 2 == 1) {
-            teamList = new String[countTeam + 1];
-        } else teamList = new String[countTeam];
-        int b = 1;
-        this.doubleNumber = countTeam % 2 == 0;
-        for (int i = 0; i < countTeam; i++) {
-            System.out.println(b++ + ". Takımı giriniz: ");
-            String str = input.next();
-            this.teamList[i] = str;
+
+    static void teamMakers() {
+        System.out.print("Please enter team quantity: ");
+        int q = input.nextInt();
+        boolean odd = q % 2 == 1;
+        for (int i = 0; i < q; i++) {
+            System.out.print("Please enter " + (i + 1) + ". team name: ");
+            String a = input.next();
+            teams.add(a);
         }
-        if (!doubleNumber) {
-            this.teamList[countTeam] = "Bay";
-            this.countTeam++;
+        if (odd) {
+            teams.add("Bay");
         }
-        this.evSahibi = new String[countTeam];
-        this.deplasman = new String[countTeam];
+        int b = teams.size();
+        LinkedList<String> mixer = new LinkedList<>();
+        for (int j = 0; j < b; j++) {
+            int a = (int) ((Math.random()) * teams.size());
+            mixer.add(teams.get(a));
+            teams.remove(a);
+        }
+        teams = mixer;
     }
 
-    public void putter() {
-        for (int i = 0; i < teamList.length ; i++) {
-            for (int j = 0; j < teamList.length; j++) {
-                LinkedHashMap<String,String> a = new LinkedHashMap<>();
-                if(j == i) continue;
-                a.put(teamList[j],teamList[i]);
-                line.add(a);
+    static void roundMaker() {
+        int roundSize = teams.size() - 1;
+        int roundMatch = teams.size() / 2;
+        for (int i = 0; i < roundSize; i++) {
+            LinkedHashMap<String,String> mada = new LinkedHashMap<>();
+            for (int j = 0; j < roundMatch; j++) {
+                mada.put(teams.get(j),teams.get(teams.size()-(j+1)));
+            }
+            allRound.add(mada);
+            LinkedList<String> mixer = new LinkedList<>();
+            mixer.add(teams.get(0));
+            mixer.add(teams.get(teams.size()-1));
+            int a = teams.size();
+            teams.remove(0);
+            teams.remove(teams.size()-1);
+            for(int k = 0 ; k < (a-2);k++){
+                mixer.add(teams.get(0));
+                teams.remove(0);
+            }
+            System.out.println(mixer);
+            teams = mixer;
+        }
+    }
+    static void print(){
+        int a = 1;
+        for(int i = 0 ; i < teams.size()-1;i++){
+            Iterator itr = allRound.get(i).keySet().iterator();
+            Iterator itr2 = allRound.get(i).values().iterator();
+            System.out.println("Round "+a++);
+            for(int j = 0 ; j < allRound.get(i).size();j++){
+                System.out.println(itr2.next()+"------------"+itr.next());
+            }
+        }
+        for(int i = 0 ; i < teams.size()-1;i++){
+            Iterator itr = allRound.get(i).keySet().iterator();
+            Iterator itr2 = allRound.get(i).values().iterator();
+            System.out.println("Round "+a++);
+            for(int j = 0 ; j < allRound.get(i).size();j++){
+                System.out.println(itr.next()+"------------"+itr2.next());
             }
         }
     }
-    void print(){
-        for(int i = 0 ; i < line.size();i++){
-            System.out.println("----------------");
-            System.out.println(line.get(i));
-        }
-    }
-
-    /*public void matchMaker() {
-        int raund = 0;
-        while (raund < (countTeam - 1) * 2) {
-            System.out.println("Round: " + (raund + 1));
-            for (int i = 0; i < countTeam / 2; i++) {
-                LinkedHashMap<>
-            }
-            raund++;
-        }
-    }
-
-     */
-
-    public void run(){
-        teamMaker();
-        putter();
+    static void run(){
+        teamMakers();
+        roundMaker();
         print();
     }
+
 }
